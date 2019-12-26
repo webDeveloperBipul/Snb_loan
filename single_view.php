@@ -22,6 +22,11 @@
 <!-- ==================================================== -->
 <?php 
    $id = $_GET['id'];
+
+   if(isset($_GET['paid'])) {
+      $paid = $_GET['paid']; 
+    }
+    
    $sql = "SELECT * FROM all_member_form_data WHERE id = $id";
    $result = $conn->query($sql);
    if ($result->num_rows > 0) {
@@ -38,7 +43,7 @@
         
           <!-- Page Heading -->
           <div class="d-flex align-items-center mb-4">
-          <h4 class="mb-0 mt-3">সদস্য বিবরণ</h4>
+          <h4 class="mb-0 text-success  border p-2 mt-3"><?php if(isset($paid)){echo "পরিশোধকৃত সদস্য";}?></h4>
           
             <a href="comity.php" class="d-none ml-auto mt-3 d-sm-inline-block btn btn-sm btn-primary shadow-sm">কমিটি</a>
             <a href="running_member.php" class="d-none ml-3 mt-3 d-sm-inline-block btn btn-sm btn-primary shadow-sm">বর্তমান সদস্য</a>

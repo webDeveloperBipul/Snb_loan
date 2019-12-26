@@ -24,6 +24,6 @@ if (!unlink($file)) {
 }
 
 
- header('location: ../running_member.php' );
+ header('location: ../paid_member.php' );
 
 ?>
