@@ -79,12 +79,7 @@
          <!-- Sidebar - Brand -->
          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon">
-               <i class="fas fa-handshake"></i>
-               </i>
-            </div>
-            <div class="sidebar-brand-text mx-3">সমিতি লি:
-               <sup>1
-               </sup>
+               <img width="100" src="images/app_image/logo2.png" alt="not">
             </div>
          </a>
          <!-- Divider -->
@@ -219,12 +214,18 @@
          </div>
       </ul>
       <!-- End of Sidebar -->
+      
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column">
       <!-- Main Content -->
+      
       <div id="content">
+      
+      
       <!-- Topbar -->
       <nav class="navbar navbar-expand navbar-light header-top-bg topbar mb-1 static-top shadow">
+     <marquee class="h4 text-warning" behavior="alternate" scrolldelay="300">তরুন সংঘ সমবায় সমিতি লিমিটেড</marquee>
+  
          <!-- Sidebar Toggle (Topbar) -->
          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
          <i class="fa fa-bars"></i>

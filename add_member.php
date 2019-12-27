@@ -98,6 +98,7 @@ if (isset($name)) {
                               <input class="mt-3" type="number" name="others_cost"  placeholder="অন্যান্য খরচ">
                               <br>
                               <input class="mt-3" type="text" name="details"  placeholder="বিবরণ">
+                              <input class="mt-3" type="hidden" value="unpaid" name="unpaid">
                       
                             </div>   
                           </div>

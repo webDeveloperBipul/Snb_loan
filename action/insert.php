@@ -49,12 +49,13 @@ if(isset($_POST["m_name"], $_POST["f_name"])){
     $add_cost = mysqli_real_escape_string($conn, $_POST["add_cost"]);
     $others_cost = mysqli_real_escape_string($conn, $_POST["others_cost"]);
     $details = mysqli_real_escape_string($conn, $_POST["details"]);
+    $unpaid = mysqli_real_escape_string($conn, $_POST["unpaid"]);
     $image = $_FILES['image']['name'];
 
 }
 
-$sql = "INSERT INTO all_member_form_data (m_name, f_name, phone_no, profesion, permanent_addr, present_addr, refer_name, refer_addr, refer_phone, about_work, nid, loan_date, loan_amount, profit_amount, total_amount, premier, premier_amount, savings_amount, add_cost, others_cost, details, image)
-VALUES('$m_name', '$f_name', '$phone_no', '$profesion', '$permanent_addr', '$present_addr',  '$refer_name',  '$refer_addr', '$refer_phone', '$about_work', '$nid', '$loan_date', '$loan_amount', '$profit_amount', '$total_amount', '$premier',  '$premier_amount', '$savings_amount', '$add_cost', '$others_cost', '$details', '$image')";
+$sql = "INSERT INTO all_member_form_data (m_name, f_name, phone_no, profesion, permanent_addr, present_addr, refer_name, refer_addr, refer_phone, about_work, nid, loan_date, loan_amount, profit_amount, total_amount, premier, premier_amount, savings_amount, add_cost, others_cost, details, is_paid, image)
+VALUES('$m_name', '$f_name', '$phone_no', '$profesion', '$permanent_addr', '$present_addr',  '$refer_name',  '$refer_addr', '$refer_phone', '$about_work', '$nid', '$loan_date', '$loan_amount', '$profit_amount', '$total_amount', '$premier',  '$premier_amount', '$savings_amount', '$add_cost', '$others_cost', '$details','$unpaid', '$image')";
 
 
 if ($conn->query($sql) === TRUE) {

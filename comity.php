@@ -101,7 +101,7 @@ if ($res->num_rows > 0) {
  
         echo "<tr>
                                 <td width='10%' class='text-center'> 
-                                <img width='50'  class='rounded' src='images/comity/" . $image . "' >
+                                <img width='50' height='40'  class='rounded' src='images/comity/" . $image . "' >
                                 </td>
                                 <td > " . $row["name"] . "</td>
                             
