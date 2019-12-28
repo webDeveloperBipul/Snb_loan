@@ -364,54 +364,79 @@ if (isset($name)) {
           </div>
 
 
-          
-<hr>
+  
+
 
 <div class="container">
   <div id="accordion">
     <div class="card">
-      <div class="card-header text-center">
-      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapseOne">Simple</button>
-      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapse2">Simple</button>
-      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapseThree">Simple</button>
+      <div class="card-header text-center mb-2">
+      <button type="button" class="btn btn-primary btn-xs"  data-toggle="collapse" href="#collapseOne">ঋণ প্রদান</button>
+      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapse2">আদায়কৃত কিস্তি</button>
+      <button type="button" class="btn btn-success"  data-toggle="collapse" href="#collapseThree">সদস্য ভর্তি</button>
+      <button type="button" class="btn btn-xs btn-dark"  data-toggle="collapse" href="#collapse4">সদস্য পরিশোধ</button>
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
       <table id="table_id" class="display table table-bordered">
                   <thead class="text-primary text-center">
                       <tr>
+                          <th>ছবি</th>
                           <th>তারিখ</th>
-                          <th>Column 2</th>
-                          <th>Column 2</th>
-                          <th>Column 2</th>
-                          <th>Column 2</th>
+                          <th>নাম</th>
+                          <th>মোবাইল নং</th>
+                          <th width="20%">ঋণের পরিমাণ<span class="text-xs text-primary"> (মুনাফা সহ)</span></th>
                           <th>Column 2</th>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                          <td>Row 1 Data 1</td>
-                          <td>Row 1 Data 2</td>
-                          <td>Row 1 Data 2</td>
-                          <td>Row 1 Data 2</td>
-                          <td>Row 1 Data 2</td>
-                          <td>Row 1 Data 2</td>
-                      </tr>
-                      <tr>
-                          <td>Row 2 Data 1</td>
-                          <td>Row 2 Data 2</td>
-                          <td>Row 2 Data 2</td>
-                          <td>Row 2 Data 2</td>
-                          <td>Row 2 Data 2</td>
-                          <td>Row 2 Data 2</td>
-                      </tr>
+                  <?php
+
+
+              $sql = "SELECT * FROM all_member_form_data where is_paid='unpaid' AND loan_date BETWEEN '$last_week' AND '$cur_date'  ORDER BY id";
+                $res = $conn->query($sql);
+
+              if ($res->num_rows > 0) {
+                  // output data of each row
+                  while ($row = $res->fetch_assoc()) {
+                    
+                  $image = $row["image"];
+                    
+
+                     echo "
+                     <tr>
+                     <td width='5%' class='text-center'> <img width='40' class='rounded' src='images/members/" . $row['image'] . "' ></td>
+                          <td>". $row["loan_date"] ."</td>
+                          <td>" . $row["m_name"] . "</td>
+                          <td>" . $row["phone_no"] . "</td>
+                          <td>" . $row["total_amount"] . "</td>
+    
+                          <td class='text-center'><a class='btn btn-info btn-sm' id='alert' href='single_view.php?id=" . $row["id"] . "'>দেখুন</a>
+                          <a class='btn btn-success btn-sm btn-delete' value='1' name='actiondelete' Onclick='return ConfirmPaid();' id='alert'  href='action/paid.php?id=" . $row["id"] .  "&paid=yes_paid'>পরিশোধ</a>
+                          <a class='btn btn-danger btn-sm btn-delete' value='1' name='actiondelete' Onclick='return ConfirmDelete();' id='alert'  href='action/delete.php?id=" . $row["id"] .  "&image=". $image ."'>ডিলিট</a></td>
+                      </tr>";
+
+                    }
+
+      
+                  } else {
+                    echo "no result";
+                  }
+                  
+                  
+                  $conn->close();
+                     
+                     ?>
+                  
                   </tbody>
               </table>
       </div>
     </div>
+
+
     <div class="card">
       <div id="collapse2" class="collapse" data-parent="#accordion">
       <table id="table_id2" class="display table table-bordered">
-                  <thead class="text-primary text-center">
+                  <thead class="text-info text-center">
                       <tr>
                           <th>তারিখ</th>
                           <th>Column 2</th>
@@ -445,7 +470,7 @@ if (isset($name)) {
     <div class="card">
       <div id="collapseThree" class="collapse" data-parent="#accordion">
       <table id="table_id3" class="display table table-bordered">
-                  <thead class="text-primary text-center">
+                  <thead class="text-success text-center">
                       <tr>
                           <th>তারিখ</th>
                           <th>Column 2</th>
@@ -476,6 +501,42 @@ if (isset($name)) {
               </table>
       </div>
     </div>
+
+    <div class="card">
+      <div id="collapse4" class="collapse" data-parent="#accordion">
+      <table id="table_id4" class="display table table-bordered">
+                  <thead class="text-dark text-center">
+                      <tr>
+                          <th>তারিখ</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Row 1 Data 1</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                      </tr>
+                      <tr>
+                          <td>Row 2 Data 1</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                      </tr>
+                  </tbody>
+              </table>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -492,6 +553,9 @@ $(document).ready( function () {
 } );
 $(document).ready( function () {
     $('#table_id3').DataTable();
+} );
+$(document).ready( function () {
+    $('#table_id4').DataTable();
 } );
 </script>
 
