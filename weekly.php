@@ -1,6 +1,10 @@
+
 <?php
-session_start();
 include('action/sql_config.php');
+
+session_start();
+
+
 
 
 if (isset($_SESSION["name"])) {
@@ -19,36 +23,241 @@ if (isset($name)) {
 
   include('part/header.php');
 
+  /* weekly variable */
+  $cur_date = date("d-m-Y");
+  $last_week = date("d-m-Y", strtotime("previous friday"));
+
    ?>
 
 <!-- ==================================================== -->
 
+
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+          
+            <!-- Page Heading -->
+            <div class="d-flex align-items-center mb-4">
+            <h4 class="mb-0 mt-2">সাপ্তাহিক হিসাব 
+(শুক্রবার থেকে)</h4>
+            
+              <a href="comity.php" class="d-none ml-auto mt-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm">কমিটি</a>
+              <a href="running_member.php" class="d-none ml-3 mt-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm">বর্তমান সদস্য</a>
+              <a href="add_member.php" class="d-none ml-3 mt-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm">সদস্য যোগ করুন</a>
+            </div>
+          
+          
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">এই সপ্তাহে মোট ঋণ প্রদান</div>
+                      <div class="h5 mb-0 bangla font-weight-bold text-gray-800">
+<!--                       $sql = "SELECT * FROM all_member_form_data where loan_date BETWEEN '$last_week' AND '$cur_date' ORDER BY id"; -->
+
+                      <?php
+                       $cur_date = date("d-m-Y");
+                       $last_week = date("d-m-Y", strtotime("previous friday"));
+                      $sql = "SELECT sum(loan_amount) AS `total` FROM `all_member_form_data` where loan_date BETWEEN '$last_week' AND '$cur_date'";
+                      
+                      $result = mysqli_query($conn, $sql);
+                      $data = mysqli_fetch_array($result);
+                      $pay_amount = $data['total'];
+
+                      if($pay_amount > 0){
+                        echo "৳"." ".$pay_amount;
+                      }
+                      else{
+                        echo "৳ 0";
+                      }
+                    
+                      ?> টাকা
+
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                    <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs  font-weight-bold text-success text-uppercase mb-1">এই সপ্তাহে মোট আদায়কৃত কিস্তি</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+
+                        <?php
+                          $sql = "SELECT sum(joma) AS `total` FROM `member_premier_data` where premier_date BETWEEN '$last_week' AND '$cur_date' ";
+                          
+                          $result = mysqli_query($conn, $sql);
+                          $data = mysqli_fetch_array($result);
+                          $premier = $data['total'];
+
+                          if($premier > 0){
+                            echo "৳"." ".$premier;
+                          }
+                          else{
+                            echo "৳ 0";
+                          }
+                        
+                          ?> টাকা
+
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                      <i class="fas fa-hand-point-left fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              
+
+                                                <!-- Earnings (Monthly) Card Example -->
+
+
+
  
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-        
-          <!-- Page Heading -->
-          <div class="d-flex align-items-center mb-4">
-          <h4 class="mb-0">পরিশোধকৃত সদস্য</h4>
+              
+<!-- Earnings (Monthly) Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-success shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs  font-weight-bold text-success text-uppercase mb-1">এই সপ্তাহে মোট অন্যান্য ফি আদায়</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+
+          <?php
+            $sql = "SELECT sum(add_cost+others_cost) AS `total` FROM `all_member_form_data` where loan_date BETWEEN '$last_week' AND '$cur_date'";
+            
+            $result = mysqli_query($conn, $sql);
+            $data = mysqli_fetch_array($result);
+            $others_cost = $data['total'];
+
+            if($others_cost > 0){
+              echo "৳"." ".$others_cost;
+            }
+            else{
+              echo "৳ 0";
+            }
           
-            <a href="comity.php" class="d-none ml-auto mt-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm">কমিটি</a>
-            <a href="running_member.php" class="d-none ml-3 mt-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm">বর্তমান সদস্য</a>
-            <a href="add_member.php" class="d-none ml-3 mt-2 d-sm-inline-block btn btn-sm btn-primary shadow-sm">সদস্য যোগ করুন</a>
+            ?> টাকা
+
           </div>
+        </div>
+        <div class="col-auto">
+        <i class="fas fa-hand-point-left fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+  
+           <!-- Earnings (Monthly) Card Example -->
+             <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs  font-weight-bold text-success text-uppercase mb-1">এই সপ্তাহে কমিটির মোট সঞ্চয়</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+
+                      <?php
+                        $sql = "SELECT sum(savings+others_fee) AS `total` FROM `comity_data` where date BETWEEN '$last_week' AND '$cur_date' ";
+                        
+                        $result = mysqli_query($conn, $sql);
+                        $data = mysqli_fetch_array($result);
+                        $savings = $data['total'];
+
+                        if($savings > 0){
+                          echo "৳"." ".$savings;
+                        }
+                        else{
+                          echo "৳ 0";
+                        }
+                        ?> টাকা
+
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+<!-- Earnings (Monthly) Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-dark shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">এই সপ্তাহে সদস্যের মোট সঞ্চয় </div>
+          <div class="h5 mb-0 bangla font-weight-bold text-gray-800">
+
+          <?php
+            $sql = "SELECT sum(savings) AS `total` FROM `member_premier_data` where premier_date BETWEEN '$last_week' AND '$cur_date'";
+            
+            $result = mysqli_query($conn, $sql);
+            $data = mysqli_fetch_array($result);
+            $savings = $data['total'];
+
+            if($savings > 0){
+              echo "৳"." ".$savings;
+            }
+            else{
+              echo "৳ 0";
+            }
           
+            ?> টাকা
 
-<!-- topbar -->
-  <div class="container bg-Secondary">
+          </div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row mb-3 bg-dark">
-                <div class="col-md-3 col-sm-12 text-white mt-3 mb-2">
-                <h5 class="text-warning" >পরিশোধকৃত সদস্য :
-                              
-                              <?php
-              $sql = "SELECT * FROM all_member_form_data where not is_paid='unpaid' ORDER BY id";
+
+<!-- Pending Requests Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-warning shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-sm font-weight-bold text-primary text-uppercase mb-1">এই সপ্তাহে সদস্য ভর্তি</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+          <?php
+              $sql = "SELECT * FROM all_member_form_data where loan_date BETWEEN '$last_week' AND '$cur_date'";
               if ($result = mysqli_query($conn, $sql)) {
                   // Return the number of rows in result set
                   $rowcount = mysqli_num_rows($result);
@@ -58,146 +267,241 @@ if (isset($name)) {
               }
 
               ?> জন
-                    
-                 </h5>  
-                </div>
-                
-                <!-- <div class="col-md-3 col-sm-12 text-white mt-3 mb-2"><h5>সর্বমোট প্রদান :  </h5></div> -->
-                <div class="col-md-3 col-sm-12 text-white">
-                
-                </div>
-            </div>
-            
-            <table class="table table-striped table-dark table-bordered" id="datatable">
-                <thead class="text-center">
-                  <tr>
-                    <th>ছবি</th>
-                    <th>তারিখ</th>
-                    <th>নাম</th>
-                    <th>পিতার নাম</th>
-                    <th>ঋণের পরিমান</th>
-                    <th>মোট টাকা</th>
-                    <th>বিস্তারিত</th>
 
-                </tr>
-                </thead>
-
-
-            
-                <?php
-
-
-$sql = "SELECT * FROM all_member_form_data where not is_paid='unpaid' ORDER BY id";
-  $res = $conn->query($sql);
-
-if ($res->num_rows > 0) {
-    // output data of each row
-    while ($row = $res->fetch_assoc()) {
-      
-    $image = $row["image"];
-      
-   
-        echo "<tr>              
-                                <td width='5%' class='text-center'> <img width='50' class='rounded' src='images/members/" . $row['image'] . "' ></td>
-                                <td width='10%' > " . $row["loan_date"] . " </td>
-                                <td width='15%'> " . $row["m_name"] . "</td>
-                                <td width='15%'> " . $row["f_name"] . "</td>
-                                <td width='15%'> " . $row["loan_amount"] . "</td>
-                                <td width='15%'> " . $row["total_amount"] . "</td>          
-                                <td class='text-center'><a class='btn btn-info btn-sm' id='alert' href='single_view.php?id=" . $row["id"] . "&paid=yes'>দেখুন</a>
-                                <a class='btn btn-danger btn-sm btn-delete' value='1' name='actiondelete' Onclick='return ConfirmDelete();' id='alert'  href='action/paid_member_delete.php?id=" . $row["id"] .  "&image=". $image ."'>ডিলিট</a>
-                                </td></tr>";
-        
-    }
-
-
-
-  
-} else {
-    echo "no result";
-}
-
-
-$conn->close();
-?>
-
-
-             
-          
-            
-            </table>
+          </div>
         </div>
+        <div class="col-auto">
+          <i class="fas fa-comments fa-2x text-gray-300"></i>
+        </div>
+      </div>
     </div>
   </div>
-
-  </div>
-
-
-  
 </div>
 
 
-  
-<?php
- include('part/footer.php');
-?>
+<!-- Pending Requests Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-warning shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">এই সপ্তাহে সদস্য পরিশোধ</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+          <?php
+              $sql = "SELECT * FROM all_member_form_data where is_paid='yes_paid' AND loan_date BETWEEN '$last_week' AND '$cur_date'";
+              if ($result = mysqli_query($conn, $sql)) {
+                  // Return the number of rows in result set
+                  $rowcount = mysqli_num_rows($result);
+                  echo "<span>" .$rowcount . "</span>";
+                  // Free result set
+                  mysqli_free_result($result);
+              }
+
+              ?> জন
+
+          </div>
+        </div>
+        <div class="col-auto">
+        <i class="fas fa-user-check fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+         
+
+     
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-sm font-weight-bold text-info text-uppercase mb-1">বর্তমান ব্যালেন্স</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+
+                    
+                      <?php
+                        $sql = "SELECT sum(savings+others_fee) AS `total` FROM `comity_data` ";
+                        
+                        $result = mysqli_query($conn, $sql);
+                        $data = mysqli_fetch_array($result);
+                        $total_amount = $data['total'];
+                        
+                        $balence = $total_amount - $pay_amount;
+                        $total = $premier + $balence + $others_cost+$savings;
+                        
+                        
+                        if($total <= 0){
+                          echo "<span class='text-danger'>৳"." ".$total. " </span>";
+                        }
+                        else{
+                          echo "<span class='text-primary'>৳"." ".$total. " </span>";
+                        }
+                        ?>
+
+                      টাকা
+                      
+
+                      </div>
+                    </div>
+
+
+
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+          
+<hr>
+
+<div class="container">
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header text-center">
+      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapseOne">Simple</button>
+      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapse2">Simple</button>
+      <button type="button" class="btn btn-info"  data-toggle="collapse" href="#collapseThree">Simple</button>
+      </div>
+      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+      <table id="table_id" class="display table table-bordered">
+                  <thead class="text-primary text-center">
+                      <tr>
+                          <th>তারিখ</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Row 1 Data 1</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                      </tr>
+                      <tr>
+                          <td>Row 2 Data 1</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                      </tr>
+                  </tbody>
+              </table>
+      </div>
+    </div>
+    <div class="card">
+      <div id="collapse2" class="collapse" data-parent="#accordion">
+      <table id="table_id2" class="display table table-bordered">
+                  <thead class="text-primary text-center">
+                      <tr>
+                          <th>তারিখ</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Row 1 Data 1</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                      </tr>
+                      <tr>
+                          <td>Row 2 Data 1</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                      </tr>
+                  </tbody>
+              </table>
+      </div>
+    </div>
+    <div class="card">
+      <div id="collapseThree" class="collapse" data-parent="#accordion">
+      <table id="table_id3" class="display table table-bordered">
+                  <thead class="text-primary text-center">
+                      <tr>
+                          <th>তারিখ</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                          <th>Column 2</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Row 1 Data 1</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                          <td>Row 1 Data 2</td>
+                      </tr>
+                      <tr>
+                          <td>Row 2 Data 1</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                          <td>Row 2 Data 2</td>
+                      </tr>
+                  </tbody>
+              </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <script>
-$(document).ready(function() {
-  $('#datatable').DataTable();
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+$(document).ready( function () {
+    $('#table_id2').DataTable();
+} );
+$(document).ready( function () {
+    $('#table_id3').DataTable();
 } );
 </script>
 
-<script>
-$(document).ready(function () {
-document.querySelector('warning').onclick = function () {
-  swal({
-  title: 'Are you sure?',
-  text: 'Some text.',
-  type: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#DD6B55',
-  confirmButtonText: 'Yes!',
-  cancelButtonText: 'No.'
-}).then(() => {
-  if (result.value) {
-    // handle Confirm button click
-  } else {
-    // result.dismiss can be 'cancel', 'overlay', 'esc' or 'timer'
-  }
-});
-    };
 
-});
-</script>
-
-
-<script>
-    function ConfirmDelete()
-    {
-      var x = confirm( "আপনি কি এই সদস্য ডিলিট করতে চান?");
-      if (x)
-          return true;
-      else
-        return false;
-    }
-</script>    
-<script>
-    function ConfirmPaid()
-    {
-      var x = confirm( "এই সদস্য কে পরিশোধ পাতায় পাঠাতে চান ?");
-      if (x)
-          return true;
-      else
-        return false;
-    }
-</script>    
-    
-    
 <!-- ==================================================== -->
 
-
 <?php
+
+include('part/footer.php');
+
 }
 
 ?>
